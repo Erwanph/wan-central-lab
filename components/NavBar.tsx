@@ -38,17 +38,18 @@ const NavBar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
 
     return (
         <header className="text-white shadow-md sticky top-0 w-full z-50 bg-gradient-to-r from-blue-900 to-blue-600">
-            <nav className="fixed top-0 left-0 w-full flex items-center justify-between p-4 bg-Royal text-white z-50">
-                <div className="text-2xl font-bold">MyLogo</div>
-
-                <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:space-x-6 items-center">
+            <nav className="relative flex items-center justify-between p-4 bg-Royal text-white z-50">
+                    <Link href="/" className="absolute left-4 flex items-center space-x-2">
+                        <img src="wanlogo-nobg.png" alt="Wan Logo" className="size-[50px]" />
+                        <img src="wanlab-name-nobg.png" alt="Wan Lab Name" className="w-[160px] h-[40px]" />
+                    </Link>
+                <div className="flex-1 flex justify-center space-x-6 items-center">
                     <Link href="/" className="text-white font-bold transition-transform duration-300 hover:bg-[#FFFFFF] hover:text-[#4E75FF] px-3 py-2 rounded">Home</Link>
                     <Link href="../about" className="text-white font-bold transition-transform duration-300 hover:bg-[#FFFFFF] hover:text-[#4E75FF] px-3 py-2 rounded">About</Link>
                     <Link href="/#Subjects" className="text-white font-bold transition-transform duration-300 hover:bg-[#FFFFFF] hover:text-[#4E75FF] px-3 py-2 rounded">Subjects</Link>
                     <Link href="/#Feedback" passHref className="text-white font-bold transition-transform duration-300 hover:bg-[#FFFFFF] hover:text-[#4E75FF] px-3 py-2 rounded">Contact</Link>
                 </div>
-
-                <div className="hidden lg:flex items-center">
+                <div className="absolute right-4 flex items-center space-x-4">
                     {isLoggedIn ? (
                         <span className="text-lg">Welcome, {profileName}</span>
                     ) : (
@@ -57,12 +58,7 @@ const NavBar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                         </Link>
                     )}
                 </div>
-
-                <button onClick={toggleMenu} className="lg:hidden absolute right-4">
-                    <img src="hamburger.png" alt="Menu" className="h-12 invert" />
-                </button>
             </nav>
-
             <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex justify-end transition-transform duration-300 transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
                     }`}

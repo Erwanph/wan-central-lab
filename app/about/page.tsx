@@ -41,8 +41,8 @@ const About = () => {
 
                 <section className="mb-12">
                     <h1 className="text-5xl font-bold mb-4">About This Website</h1>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                        Erwan's Central Laboratory is a virtual learning platform designed to provide interactive and engaging virtual labs for various scientific and engineering subjects. The goal is to facilitate hands-on learning through accessible, user-friendly simulations that help users understand complex concepts in a practical way.
+                    <p className="lg:text-[27px] text-[17px] text-gray-700 leading-relaxed">
+                        Wan Central Laboratory is a virtual learning platform designed to provide interactive and engaging virtual labs for various scientific and engineering subjects. The goal is to facilitate hands-on learning through accessible, user-friendly simulations that help users understand complex concepts in a practical way.
                     </p>
                 </section>
 

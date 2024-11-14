@@ -22,7 +22,7 @@ const Feedback: React.FC = () => {
       <div className="container mx-2 max-w-7xl flex items-center justify-center flex-col md:flex-row ">
         
         <div className="w-full md:w-1/2 flex items-center justify-center mb-6 md:mb-0">
-          {/* Add image */}
+            <img src="contact.gif" alt="Contact Me" />
           <div className="w-4/5 h-80 bg-gray-600 rounded-lg"></div>
         </div>
         
@@ -71,7 +71,7 @@ const Feedback: React.FC = () => {
                 type="submit"
                 className="w-full py-4 bg-blue-600 hover:bg-blue-800 rounded-lg text-white text-lg font-semibold mt-0" 
               >
-                {submitted ? "Thank You for Your Feedback!" : "Submit"}
+                {submitted ? "Thank You for Your Feedback!" : "Send"}
               </button>
             </form>
           </div>
