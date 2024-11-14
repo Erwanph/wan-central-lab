@@ -36,7 +36,7 @@ const About = () => {
     ];
 
     return (
-        <main className="min-h-screen bg-white text-black pt-24 pb-20 px-4 flex items-center">
+        <main className="min-h-screen bg-white text-black pt-10 pb-20 px-4 flex items-center">
             <div className="container mx-auto max-w-7xl">
 
                 <section className="mb-12">

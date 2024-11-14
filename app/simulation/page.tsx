@@ -5,7 +5,7 @@ import OhmsLaw from "@/components/OhmsLaw";
 
 const Home: React.FC = () => {
   return (
-    <main className="min-h-screen flex flex-col justify-between pt-16">
+    <main className="min-h-screen flex flex-col justify-between">
         <OhmsLaw/>
     </main>
   );
