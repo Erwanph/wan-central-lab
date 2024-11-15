@@ -6,7 +6,9 @@ import { useUser } from '@/context/UserContext';
 const ProfilePage: React.FC = () => {
   const { name, setUser } = useUser();
   const [newName, setNewName] = useState(''); // Nama baru
-  const [email, setEmail] = useState(''); // Email pengguna (tidak bisa diubah)
+  const [email, setEmail] = useState('');
+  const [score, setScore] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false); // Untuk mengontrol mode edit
   const [successMessage, setSuccessMessage] = useState('');
@@ -36,6 +38,7 @@ const ProfilePage: React.FC = () => {
 
         const responseBody = await response.json();
         setNewName(responseBody.data.name);
+        setScore(responseBody.data.score);
         setEmail(responseBody.data.email);
         setUser({ name: responseBody.data.name, email: responseBody.data.email });
       } catch (error) {
@@ -71,6 +74,7 @@ const ProfilePage: React.FC = () => {
 
       const responseBody = await response.json();
       setUser({ name: responseBody.data.name, email: responseBody.data.email });
+      
       setSuccessMessage('Profile updated successfully');
       setIsEditing(false); // Selesai mengedit
     } catch (error) {
@@ -86,7 +90,7 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-6">
+    <div className="max-w-4xl pt-24 mx-auto py-12 px-6">
       <h1 className="text-3xl font-bold text-center mb-8">Profile</h1>
       <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
         {errorMessage && (
@@ -121,6 +125,19 @@ const ProfilePage: React.FC = () => {
               id="email"
               type="text"
               value={email}
+              disabled
+              className="mt-1 block w-full border border-gray-200 rounded-md shadow-sm bg-gray-100 sm:text-sm p-2 cursor-not-allowed"
+            />
+          </div>
+          {/* Score */}
+          <div>
+            <label htmlFor="score" className="block text-sm font-medium text-gray-700">
+              Latest Score
+            </label>
+            <input
+              id="score"
+              type="text"
+              value={score}
               disabled
               className="mt-1 block w-full border border-gray-200 rounded-md shadow-sm bg-gray-100 sm:text-sm p-2 cursor-not-allowed"
             />

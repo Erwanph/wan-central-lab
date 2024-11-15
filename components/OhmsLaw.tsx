@@ -174,23 +174,6 @@ const OhmsLaw: React.FC = () => {
     }
   };
 
-  const handleAddToTable = () => {
-    const calculatedCurrent = calculateCurrent();
-    if (calculatedCurrent !== null && components.length === 2) {
-      const totalResistance = calculateTotalResistance();
-      setDataPoints([
-        ...dataPoints,
-        {
-          resistance1: components[0].resistance,
-          resistance2: components[1].resistance,
-          totalResistance,
-          voltage,
-          current: calculatedCurrent,
-        },
-      ]);
-    }
-  };
-
   const handleClear = () => {
     setComponents([]);
     setVoltage(0);
@@ -204,8 +187,39 @@ const OhmsLaw: React.FC = () => {
     setCurrent(calculatedCurrent);
   }, [voltage, components, circuitType]);
 
+  useEffect(() => {
+    if (
+      voltage > 0 &&
+      components.length === 2 &&
+      components.every((comp) => comp.resistance > 0)
+    ) {
+      const totalResistance = calculateTotalResistance();
+      const calculatedCurrent = calculateCurrent();
+
+      const isDuplicate = dataPoints.some(
+        (data) =>
+          data.resistance1 === components[0].resistance &&
+          data.resistance2 === components[1].resistance &&
+          data.voltage === voltage
+      );
+
+      if (!isDuplicate && calculatedCurrent !== null) {
+        setDataPoints((prevDataPoints) => [
+          ...prevDataPoints,
+          {
+            resistance1: components[0].resistance,
+            resistance2: components[1].resistance,
+            totalResistance,
+            voltage,
+            current: calculatedCurrent,
+          },
+        ]);
+      }
+    }
+  }, [voltage, components, dataPoints]);
+
   return (
-    <div className="max-w-8xl pt-24 mx-auto p-12 space-y-8">
+    <div className="max-w-8xl mx-auto p-12 space-y-8">
       <OhmsDescription />
       <div className="grid md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow">
@@ -273,13 +287,32 @@ const OhmsLaw: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="space-x-2 space-y-4">
-            <button
-              onClick={handleAddToTable}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Add to Table
-            </button>
+          <div className="space-y-4">
+            <div className="bg-gray-100 p-4 rounded">
+              <h4 className="text-md font-medium mb-2">Data Table</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr>
+                    <th>R1 (Ω)</th>
+                    <th>R2 (Ω)</th>
+                    <th>Total R (Ω)</th>
+                    <th>Voltage (V)</th>
+                    <th>Current (A)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataPoints.map((data, index) => (
+                    <tr key={index}>
+                      <td>{data.resistance1}</td>
+                      <td>{data.resistance2}</td>
+                      <td>{data.totalResistance.toFixed(2)}</td>
+                      <td>{data.voltage}</td>
+                      <td>{data.current.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <button
               onClick={() => setShowPlot(true)}
               className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
@@ -287,15 +320,23 @@ const OhmsLaw: React.FC = () => {
             >
               Plot
             </button>
-            <button
-              onClick={handleClear}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Clear
-            </button>
           </div>
         </div>
       </div>
+
+      {showPlot && (
+        <div className="bg-white p-6 rounded-lg shadow mt-8">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={dataPoints} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="voltage" label={{ value: 'Voltage (V)', position: 'insideBottom', offset: -5 }} />
+              <YAxis label={{ value: 'Current (A)', angle: -90, position: 'insideLeft' }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="current" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       <Quiz />
     </div>
