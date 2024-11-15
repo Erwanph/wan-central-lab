@@ -19,24 +19,26 @@ const LoginPage: React.FC = () => {
         body: JSON.stringify({ email, password }),
       });
   
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+      // Check if response is OK and parse JSON only if the response is JSON
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('sessionToken', data.data.token);
+        window.location.href = '/';
+      } else {
+        // Attempt to parse JSON error message, or use generic message
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Login failed');
+        } else {
+          throw new Error('Server error: Unable to complete login');
+        }
       }
-  
-      const data = await response.json();
-      // Simpan token dan profil pengguna ke localStorage
-      localStorage.setItem('sessionToken', data.data.token);
-      localStorage.setItem('user', JSON.stringify({ name: data.data.name, email: data.data.email }));
-  
-      console.log("Token:", data.data.token);
-      console.log("User Profile:", { name: data.data.name, email: data.data.email });
-  
-      window.location.href = '/';
     } catch (err: any) {
       setError(err.message);
     }
   };
+    
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">

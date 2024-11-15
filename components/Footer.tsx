@@ -9,10 +9,10 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <div>
-          <h2 className="text-xl font-semibold mb-4">Sosial Media Kami</h2>
-          <ul className="flex space-x-4">
-            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Image src="/instagram-icon.png" width={24} height={24} alt="Instagram" /></a></li>
-            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Image src="/linkedin-icon.png" width={24} height={24} alt="LinkedIn" /></a></li>
+          <h2 className="text-xl font-semibold mb-4 lg:pl-8  ">Sosial Media</h2>
+          <ul className="flex space-x-8 lg:pl-8">
+            <li><a href="https://instagram.com/erwanphs" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Image src="/instagram-icon.png" width={24} height={24} alt="Instagram" /></a></li>
+            <li><a href="https://linkedin.com/in/erwan-poltak-halomoan/in" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Image src="/linkedin-icon.png" width={24} height={24} alt="LinkedIn" /></a></li>
             <li><a href="https://line.me" target="_blank" rel="noopener noreferrer" aria-label="LINE"><Image src="/line-icon.png" width={24} height={24} alt="LINE" /></a></li>
             <li><a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><Image src="/whatsapp-icon.png" width={24} height={24} alt="WhatsApp" /></a></li>
           </ul>
@@ -21,10 +21,9 @@ const Footer: React.FC = () => {
         <div>
           <h2 className="text-xl font-semibold mb-4">Navigasi</h2>
           <ul className="space-y-2">
-            <li><Link href="#tentang" className="hover:underline">Tentang</Link></li>
-            <li><Link href="#layanan" className="hover:underline">Layanan</Link></li>
-            <li><Link href="#portfolio" className="hover:underline">Portfolio</Link></li>
-            <li><Link href="#faq" className="hover:underline">FAQ</Link></li>
+            <li><Link href="/" className="hover:underline">Home</Link></li>
+            <li><Link href="about" className="hover:underline">About</Link></li>
+            <li><Link href="/#Subjects" className="hover:underline">Subjects</Link></li>
           </ul>
         </div>
 

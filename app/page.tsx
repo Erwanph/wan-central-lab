@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from 'react';
 import Feedback from "@/components/Feedback";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <main className="min-h-screen flex flex-col justify-between">
       <section className="relative bg-cover bg-center lg:h-[91vh] h-[50vh] flex items-center justify-center">
@@ -25,37 +25,44 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <Link href="/simulation" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4"></div> {/*Gambar*/}
-              <h3 className="text-2xl font-semibold mb-2">Ohm's Law Lab</h3>
+              <div className="relative w-full h-64 overflow-hidden rounded-lg"> 
+                <Image
+                  src="/ohmcard.jpg"
+                  alt="Ohm's Law"
+                  layout="fill" 
+                  objectFit="cover"
+                />
+              </div>
+              <h3 className="text-2xl font-semibold mb-2 pt-2">Ohm's Law</h3>
               <p>Explore the principles of Ohm's Law with our interactive virtual lab.</p>
             </Link>
 
             <Link href="/" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4 text-[50px] grid justify-items-center content-center">Coming Soon</div> {/*Coming soon dulu aja lah*/}
+              <div className="relative bg-gray-300 w-full h-64 overflow-hidden rounded-lg text-[50px] grid justify-items-center content-center">Coming Soon</div>
               <h3 className="text-2xl font-semibold mb-2">Physics</h3>
               <p>Experiment with basic physics concepts and simulations.</p>
             </Link>
 
             <Link href="/" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4 text-[50px] grid justify-items-center content-center">Coming Soon</div> {/*Coming soon dulu aja lah*/}
+              <div className="relative bg-gray-300 w-full h-64 overflow-hidden rounded-lg text-[50px] grid justify-items-center content-center">Coming Soon</div>
               <h3 className="text-2xl font-semibold mb-2">Chemistry</h3>
               <p>Explore the world of chemistry with virtual experiments.</p>
             </Link>
 
             <Link href="/" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4 text-[50px] grid justify-items-center content-center">Coming Soon</div> {/*Coming soon dulu aja lah*/}
+              <div className="relative bg-gray-300 w-full h-64 overflow-hidden rounded-lg text-[50px] grid justify-items-center content-center">Coming Soon</div>
               <h3 className="text-2xl font-semibold mb-2">Biology</h3>
               <p>Dive into the study of life with engaging virtual biology experiments.</p>
             </Link>
 
             <Link href="/" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4 text-[50px] grid justify-items-center content-center">Coming Soon</div> {/*Coming soon dulu aja lah*/}
+              <div className="relative bg-gray-300 w-full h-64 overflow-hidden rounded-lg text-[50px] grid justify-items-center content-center">Coming Soon</div>
               <h3 className="text-2xl font-semibold mb-2">Mathematics</h3>
               <p>Explore mathematical concepts through interactive activities and tools.</p>
             </Link>
 
             <Link href="/" className="bg-gray-100 text-black rounded-lg shadow-lg p-6 hover:bg-blue-700 hover:text-white transition">
-              <div className="w-full h-40 bg-gray-300 rounded-t-lg mb-4 text-[50px] grid justify-items-center content-center">Coming Soon</div> {/*Coming soon dulu aja lah*/}
+              <div className="relative bg-gray-300 w-full h-64 overflow-hidden rounded-lg text-[50px] grid justify-items-center content-center">Coming Soon</div>
               <h3 className="text-2xl font-semibold mb-2">Programming</h3>
               <p>Discover the wonders of the code universe with programming laboratory.</p>
             </Link>
@@ -74,9 +81,10 @@ const Home: React.FC = () => {
         </div>
       </section>
       
-      <section id ="Feedback">
+      {/* Coming Soon */}
+      {/* <section id ="Feedback">
         <Feedback />
-      </section>
+      </section> */}
     </main>
   );
 };
