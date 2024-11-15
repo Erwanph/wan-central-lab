@@ -10,6 +10,8 @@ import {
 } from 'recharts';
 import OhmsDescription from './OhmsDescription';
 import Quiz from './Quiz';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
 
 interface Component {
   id: number;
@@ -182,20 +184,16 @@ const OhmsLaw: React.FC = () => {
     setShowPlot(false);
   };
 
-  useEffect(() => {
+  const handleAddToTable = () => {
+    const totalResistance = calculateTotalResistance();
     const calculatedCurrent = calculateCurrent();
-    setCurrent(calculatedCurrent);
-  }, [voltage, components, circuitType]);
 
-  useEffect(() => {
     if (
       voltage > 0 &&
       components.length === 2 &&
-      components.every((comp) => comp.resistance > 0)
+      components.every((comp) => comp.resistance > 0) &&
+      calculatedCurrent !== null
     ) {
-      const totalResistance = calculateTotalResistance();
-      const calculatedCurrent = calculateCurrent();
-
       const isDuplicate = dataPoints.some(
         (data) =>
           data.resistance1 === components[0].resistance &&
@@ -203,7 +201,7 @@ const OhmsLaw: React.FC = () => {
           data.voltage === voltage
       );
 
-      if (!isDuplicate && calculatedCurrent !== null) {
+      if (!isDuplicate) {
         setDataPoints((prevDataPoints) => [
           ...prevDataPoints,
           {
@@ -216,7 +214,40 @@ const OhmsLaw: React.FC = () => {
         ]);
       }
     }
-  }, [voltage, components, dataPoints]);
+  };
+
+  const exportTable = () => {
+    const csvData = [
+      ['R1 (Ω)', 'R2 (Ω)', 'Total R (Ω)', 'Voltage (V)', 'Current (A)'],
+      ...dataPoints.map((data) => [
+        data.resistance1,
+        data.resistance2,
+        data.totalResistance.toFixed(2),
+        data.voltage,
+        data.current.toFixed(2),
+      ]),
+    ];
+
+    const csvContent = csvData.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'ohms_law_table.csv');
+  };
+
+  const exportPlot = () => {
+    const chartElement = document.querySelector('.bg-white.p-6.shadow.mt-8');
+    if (chartElement) {
+      html2canvas(chartElement as HTMLElement).then((canvas: HTMLCanvasElement) => {
+        canvas.toBlob((blob) => {
+          if (blob) saveAs(blob, 'ohms_law_plot.png');
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    const calculatedCurrent = calculateCurrent();
+    setCurrent(calculatedCurrent);
+  }, [voltage, components, circuitType]);
 
   return (
     <div className="max-w-8xl mx-auto p-12 space-y-8">
@@ -257,10 +288,9 @@ const OhmsLaw: React.FC = () => {
               <input
                 type="number"
                 value={voltage}
-                onChange={(e) => setVoltage(Math.min(20, Math.max(0, Number(e.target.value))))}
+                onChange={(e) => setVoltage(Math.max(0, Number(e.target.value)))}
                 className="w-full border rounded p-2"
                 min="0"
-                max="20"
               />
             </div>
             {components.map((comp) => (
@@ -274,15 +304,11 @@ const OhmsLaw: React.FC = () => {
                   onChange={(e) => {
                     const newComponents = [...components];
                     const index = newComponents.findIndex((c) => c.id === comp.id);
-                    newComponents[index].resistance = Math.min(
-                      100,
-                      Math.max(0, Number(e.target.value))
-                    );
+                    newComponents[index].resistance = Math.max(0, Number(e.target.value));
                     setComponents(newComponents);
                   }}
                   className="w-full border rounded p-2"
                   min="0"
-                  max="100"
                 />
               </div>
             ))}
@@ -314,11 +340,30 @@ const OhmsLaw: React.FC = () => {
               </table>
             </div>
             <button
+              onClick={handleAddToTable}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Add to Table
+            </button>
+            <button
+              onClick={exportTable}
+              className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+            >
+              Export Table
+            </button>
+            <button
               onClick={() => setShowPlot(true)}
               className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               disabled={dataPoints.length < 2}
             >
               Plot
+            </button>
+            <button
+              onClick={exportPlot}
+              className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              disabled={!showPlot}
+            >
+              Export Plot
             </button>
           </div>
         </div>
