@@ -29,14 +29,14 @@ const About = () => {
             logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg'
         },
         {
-            title: 'PostgreSQL',
-            description: 'A powerful, open-source object-relational database system with a strong focus on extensibility and standards compliance.',
-            logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg'
+            title: 'Go',
+            description: 'A statically typed, compiled programming language designed at Google, known for its simplicity, efficiency, and built-in support for concurrent programming.',
+            logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg'
         }
     ];
 
     return (
-        <main className="min-h-screen bg-white text-black pt-10 pb-20 px-4 flex items-center">
+        <main className="min-h-screen bg-white text-black pt-24 pb-20 px-4 flex items-center">
             <div className="container mx-auto max-w-7xl">
 
                 <section className="mb-12">

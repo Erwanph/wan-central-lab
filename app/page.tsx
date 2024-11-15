@@ -6,7 +6,7 @@ import Feedback from "@/components/Feedback";
 
 const Home = () => {
   return (
-    <main className="min-h-screen flex flex-col justify-between">
+    <main className="min-h-screen flex flex-col justify-between mt-12 pt-4">
       <section className="relative bg-cover bg-center lg:h-[91vh] h-[50vh] flex items-center justify-center">
         <div className="absolute inset-0 bg-[url('/background.png')] bg-cover bg-center opacity-20"></div>
         <div className="container relative z-10 mx-auto text-center">

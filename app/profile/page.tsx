@@ -1,99 +1,168 @@
-'use client'
-import { useState } from 'react';
-import Link from 'next/link';
+'use client';
 
-const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string>('');
+import { useState, useEffect } from 'react';
+import { useUser } from '@/context/UserContext';
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
+const ProfilePage: React.FC = () => {
+  const { name, setUser } = useUser();
+  const [newName, setNewName] = useState(''); // Nama baru
+  const [email, setEmail] = useState(''); // Email pengguna (tidak bisa diubah)
+  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // Untuk mengontrol mode edit
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Ambil data profil saat halaman dimuat
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('sessionToken');
+      if (!token) {
+        setErrorMessage('You are not logged in.');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await fetch('http://127.0.0.1:6565/api/v1/profile/', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+
+        const responseBody = await response.json();
+        setNewName(responseBody.data.name);
+        setEmail(responseBody.data.email);
+        setUser({ name: responseBody.data.name, email: responseBody.data.email });
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        setErrorMessage('Failed to load profile data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [setUser]);
+
+  const handleUpdateProfile = async () => {
+    const token = localStorage.getItem('sessionToken');
+    if (!token) return;
+
     try {
-      const response = await fetch('http://127.0.0.1:6565/api/v1/auth/login/', {
-        method: 'POST',
+      setLoading(true);
+      setSuccessMessage('');
+      setErrorMessage('');
+
+      const response = await fetch('http://127.0.0.1:6565/api/v1/profile/', {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ new_name: newName }),
       });
-  
-      // Check if response is OK and parse JSON only if the response is JSON
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('sessionToken', data.data.token);
-        window.location.href = '/';
-      } else {
-        // Attempt to parse JSON error message, or use generic message
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Login failed');
-        } else {
-          throw new Error('Server error: Unable to complete login');
-        }
-      }
-    } catch (err: any) {
-      setError(err.message);
+
+      if (!response.ok) throw new Error('Failed to update profile');
+
+      const responseBody = await response.json();
+      setUser({ name: responseBody.data.name, email: responseBody.data.email });
+      setSuccessMessage('Profile updated successfully');
+      setIsEditing(false); // Selesai mengedit
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setErrorMessage('Failed to update profile.');
+    } finally {
+      setLoading(false);
     }
   };
-    
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="max-w-4xl mx-auto py-12 px-6">
+      <h1 className="text-3xl font-bold text-center mb-8">Profile</h1>
+      <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
+        {errorMessage && (
+          <div className="text-red-500 text-sm font-medium text-center">{errorMessage}</div>
+        )}
+        <div className="space-y-4">
+          {/* Name */}
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              disabled={!isEditing} // Input hanya aktif jika dalam mode edit
+              className={`mt-1 block w-full border ${
+                isEditing ? 'border-gray-300' : 'border-gray-200'
+              } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 ${
+                !isEditing && 'bg-gray-100 cursor-not-allowed'
+              }`}
+            />
+          </div>
+
+          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </label>
             <input
-              type="email"
               id="email"
+              type="text"
               value={email}
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              disabled
+              className="mt-1 block w-full border border-gray-200 rounded-md shadow-sm bg-gray-100 sm:text-sm p-2 cursor-not-allowed"
             />
           </div>
 
-          {error && (
-            <p className="text-red-500 text-sm mt-2">{error}</p>
+          {/* Buttons */}
+          {!isEditing ? (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+            >
+              Edit Profile
+            </button>
+          ) : (
+            <div className="flex space-x-4">
+              <button
+                onClick={handleUpdateProfile}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none ${
+                  loading ? 'cursor-not-allowed opacity-50' : ''
+                }`}
+                disabled={loading}
+              >
+                {loading ? 'Submitting...' : 'Submit'}
+              </button>
+              <button
+                onClick={() => {
+                  setIsEditing(false);
+                  setNewName(name); // Reset ke nama asli jika dibatalkan
+                }}
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none"
+              >
+                Cancel
+              </button>
+            </div>
           )}
-          
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md font-semibold"
-          >
-            Login
-          </button>
-        </form>
-
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Don’t have an account?{' '}
-          <Link href="/signup" className="text-blue-600 hover:underline">Sign up</Link>
-        </p>
+        </div>
+        {successMessage && (
+          <div className="text-green-500 text-sm font-medium text-center">{successMessage}</div>
+        )}
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ProfilePage;
