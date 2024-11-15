@@ -49,7 +49,6 @@ const Quiz = () => {
         try {
             setLoading(true);
     
-            // Ambil skor saat ini dari backend
             const currentScoreResponse = await axios.get("http://127.0.0.1:6565/api/v1/profile/", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -93,7 +92,7 @@ const Quiz = () => {
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                setError(error.response?.data?.message || "Failed to update score");
+                setError(error.response?.data?.message || "Failed to update score, assignment already worked");
             } else if (error instanceof Error) {
                 setError(error.message);
             } else {
