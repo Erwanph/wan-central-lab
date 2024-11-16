@@ -58,8 +58,13 @@ const DropArea: React.FC<{
           onDragOver={handleDragOver}
           className="absolute w-16 h-16 border-2 border-dashed border-gray-400 rounded-lg"
           style={{
-            top: position === 1 ? '25%' : '75%',
-            left: position === 1 ? '25%' : '75%',
+            top: circuitType === 'serial' 
+              ? (position === 1 ? '1%' : '1%')  // Posisi vertikal untuk serial
+              : (position === 1 ? '1%' : '34.3%'), // Posisi vertikal untuk paralel
+
+            left: circuitType === 'parallel'
+              ? (position === 1 ? '42%' : '42%')  // Posisi horisontal untuk serial (di tengah)
+              : (position === 1 ? '25%' : '60%'), // Posisi horisontal untuk paralel
           }}
         >
           {components
@@ -127,7 +132,7 @@ const OhmsLaw: React.FC = () => {
   const [circuitType, setCircuitType] = useState<'serial' | 'parallel'>('serial');
   const [voltage, setVoltage] = useState<number>(0);
   const [components, setComponents] = useState<Component[]>([]);
-  // const [current, setCurrent] = useState<number | null>(null);
+  const [current, setCurrent] = useState<number>(0);
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
   const [showPlot, setShowPlot] = useState(false);
 
@@ -141,15 +146,11 @@ const OhmsLaw: React.FC = () => {
     }
   };
 
-  const calculateCurrent = (): number | null => {
-    if (components.length !== 2 || voltage === 0) {
-      return null;
+  const calculateCurrent = (): number => {
+    if (components.length !== 2 || voltage === 0 || components.some((comp) => comp.resistance === 0)) {
+      return 0;  
     }
-
-    if (components.some((comp) => comp.resistance === 0)) {
-      return null;
-    }
-
+  
     const totalResistance = calculateTotalResistance();
     return voltage / totalResistance;
   };
@@ -246,7 +247,7 @@ const OhmsLaw: React.FC = () => {
 
   useEffect(() => {
     const calculatedCurrent = calculateCurrent();
-    // setCurrent(calculatedCurrent);
+    setCurrent(calculatedCurrent);  
   }, [voltage, components, circuitType]);
 
   return (
