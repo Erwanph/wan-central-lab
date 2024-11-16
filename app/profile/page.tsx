@@ -14,7 +14,14 @@ const ProfilePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Ambil data profil saat halaman dimuat
+  interface ProfileResponse {
+    data: {
+      name: string;
+      email: string;
+      score: string;
+    };
+  }
+  
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('sessionToken');
@@ -22,7 +29,7 @@ const ProfilePage: React.FC = () => {
         setErrorMessage('You are not logged in.');
         return;
       }
-
+  
       try {
         setLoading(true);
         const response = await fetch('http://127.0.0.1:6565/api/v1/profile/', {
@@ -31,12 +38,12 @@ const ProfilePage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         if (!response.ok) {
           throw new Error('Failed to fetch profile data');
         }
-
-        const responseBody = await response.json();
+  
+        const responseBody: ProfileResponse = await response.json();
         setNewName(responseBody.data.name);
         setScore(responseBody.data.score);
         setEmail(responseBody.data.email);
@@ -48,7 +55,7 @@ const ProfilePage: React.FC = () => {
         setLoading(false);
       }
     };
-
+  
     fetchProfile();
   }, [setUser]);
 

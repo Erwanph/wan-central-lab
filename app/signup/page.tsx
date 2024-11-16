@@ -29,9 +29,14 @@ const RegisterPage = () => {
       console.log('Success:', data); // Log for debugging
       setSuccess(true);
       setError(null); // Clear any error message
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Catch error:', err); // Log for debugging
-      setError(err.message);
+      
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
       setSuccess(false);
     }
   };

@@ -123,7 +123,7 @@ const Quiz = () => {
             )}
             <div className="space-y-6">
                 <div>
-                    <h4 className="font-semibold text-xl">What is the formula for Ohm's Law?</h4>
+                    <h4 className="font-semibold text-xl">What is the formula for Ohm&apos;s Law?</h4>
                     <ul className="space-y-3 mt-3">
                         <li>
                             <label className="text-lg">

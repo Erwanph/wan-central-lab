@@ -127,7 +127,7 @@ const OhmsLaw: React.FC = () => {
   const [circuitType, setCircuitType] = useState<'serial' | 'parallel'>('serial');
   const [voltage, setVoltage] = useState<number>(0);
   const [components, setComponents] = useState<Component[]>([]);
-  const [current, setCurrent] = useState<number | null>(null);
+  // const [current, setCurrent] = useState<number | null>(null);
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
   const [showPlot, setShowPlot] = useState(false);
 
@@ -159,7 +159,7 @@ const OhmsLaw: React.FC = () => {
     setComponents([]);
     setDataPoints([]);
     setShowPlot(false);
-    setCurrent(null);
+    // setCurrent(null);
   };
 
   const handleDrop = (type: string, position: number) => {
@@ -246,7 +246,7 @@ const OhmsLaw: React.FC = () => {
 
   useEffect(() => {
     const calculatedCurrent = calculateCurrent();
-    setCurrent(calculatedCurrent);
+    // setCurrent(calculatedCurrent);
   }, [voltage, components, circuitType]);
 
   return (

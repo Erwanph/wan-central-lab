@@ -10,10 +10,10 @@ const Footer: React.FC = () => {
         <div>
           <h2 className="text-xl font-semibold mb-4 lg:pl-8  ">Sosial Media</h2>
           <ul className="flex space-x-8 lg:pl-8">
-            <li><a href="https://instagram.com/erwanphs" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Image src="/instagram-icon.png" width={24} height={24} alt="Instagram" /></a></li>
-            <li><a href="https://linkedin.com/in/erwan-poltak-halomoan/in" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Image src="/linkedin-icon.png" width={24} height={24} alt="LinkedIn" /></a></li>
-            <li><a href="https://line.me" target="_blank" rel="noopener noreferrer" aria-label="LINE"><Image src="/line-icon.png" width={24} height={24} alt="LINE" /></a></li>
-            <li><a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><Image src="/whatsapp-icon.png" width={24} height={24} alt="WhatsApp" /></a></li>
+            <li><a href="https://instagram.com/erwanphs" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Image src="/wanlogo-nobg.png" width={30} height={24} alt="Instagram" />Instagra</a></li>
+            <li><a href="https://linkedin.com/in/erwan-poltak-halomoan/in" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Image src="/wanlogo-nobg.png" width={30} height={24} alt="LinkedIn" />Linkedin</a></li>
+            <li><a href="https://line.me" target="_blank" rel="noopener noreferrer" aria-label="LINE"><Image src="/wanlogo-nobg.png" width={30} height={24} alt="LINE" />LINE</a></li>
+            <li><a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><Image src="/wanlogo-nobg.png" width={30} height={24} alt="WhatsApp" />Whatsapp</a></li>
           </ul>
         </div>
 

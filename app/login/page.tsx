@@ -129,8 +129,12 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('user', JSON.stringify({ name: data.data.name, email: data.data.email }));
 
       window.location.href = '/';
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
     }
   };
 
