@@ -176,13 +176,13 @@ const OhmsLaw: React.FC = () => {
     }
   };
 
-  const handleClear = () => {
-    setComponents([]);
-    setVoltage(0);
-    setCurrent(null);
-    setDataPoints([]);
-    setShowPlot(false);
-  };
+  // const handleClear = () => {
+  //   setComponents([]);
+  //   setVoltage(0);
+  //   setCurrent(null);
+  //   setDataPoints([]);
+  //   setShowPlot(false);
+  // };
 
   const handleAddToTable = () => {
     const totalResistance = calculateTotalResistance();
