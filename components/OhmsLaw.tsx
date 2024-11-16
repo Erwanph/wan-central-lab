@@ -188,12 +188,12 @@ const OhmsLaw: React.FC = () => {
   const handleAddToTable = () => {
     const totalResistance = calculateTotalResistance();
     const calculatedCurrent = calculateCurrent();
-
+  
     if (
       voltage > 0 &&
       components.length === 2 &&
       components.every((comp) => comp.resistance > 0) &&
-      calculatedCurrent !== null
+      calculatedCurrent !== 0 // Check if the current is valid (not null or zero)
     ) {
       const isDuplicate = dataPoints.some(
         (data) =>
@@ -201,7 +201,7 @@ const OhmsLaw: React.FC = () => {
           data.resistance2 === components[1].resistance &&
           data.voltage === voltage
       );
-
+  
       if (!isDuplicate) {
         setDataPoints((prevDataPoints) => [
           ...prevDataPoints,
@@ -210,7 +210,7 @@ const OhmsLaw: React.FC = () => {
             resistance2: components[1].resistance,
             totalResistance,
             voltage,
-            current: calculatedCurrent,
+            current: calculatedCurrent, // Directly use the calculated current
           },
         ]);
       }
