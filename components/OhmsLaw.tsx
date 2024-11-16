@@ -132,6 +132,7 @@ const OhmsLaw: React.FC = () => {
   const [circuitType, setCircuitType] = useState<'serial' | 'parallel'>('serial');
   const [voltage, setVoltage] = useState<number>(0);
   const [components, setComponents] = useState<Component[]>([]);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [current, setCurrent] = useState<number>(0);
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
   const [showPlot, setShowPlot] = useState(false);
@@ -210,7 +211,7 @@ const OhmsLaw: React.FC = () => {
             resistance2: components[1].resistance,
             totalResistance,
             voltage,
-            current: calculatedCurrent, // Directly use the calculated current
+            current: calculatedCurrent, 
           },
         ]);
       }
