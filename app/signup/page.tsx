@@ -11,7 +11,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://127.0.0.1:6565/api/v1/auth/register/', { 
+      const response = await fetch('http://217.196.49.173:6560/api/v1/auth/register/', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

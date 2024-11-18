@@ -18,7 +18,7 @@ const Quiz = () => {
             }
 
             try {
-                const response = await axios.get("http://127.0.0.1:6565/api/v1/profile/", {
+                const response = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                     },
