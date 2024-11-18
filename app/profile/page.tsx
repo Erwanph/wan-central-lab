@@ -68,7 +68,7 @@ const ProfilePage: React.FC = () => {
       setSuccessMessage('');
       setErrorMessage('');
 
-      const response = await fetch('http://127.0.0.1:6565/api/v1/profile/', {
+      const response = await fetch('http://217.196.49.173:6560/api/v1/profile/', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

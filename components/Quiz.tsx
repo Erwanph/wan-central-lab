@@ -49,7 +49,7 @@ const Quiz = () => {
         try {
             setLoading(true);
     
-            const currentScoreResponse = await axios.get("http://127.0.0.1:6565/api/v1/profile/", {
+            const currentScoreResponse = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -75,7 +75,7 @@ const Quiz = () => {
     
             // Kirim skor ke backend
             const response = await axios.patch(
-                "http://127.0.0.1:6565/api/v1/profile/score",
+                "http://217.196.49.173:6560/api/v1/profile/score",
                 { score: additionalScore },
                 {
                     headers: {
