@@ -111,7 +111,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://217.196.49.173:6560/api/v1/auth/login/', {
+      const response = await fetch('/api/proxy?api=login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
