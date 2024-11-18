@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function OPTIONS() {
-  return NextResponse.json(
-    {},
+  return new NextResponse(
+    null,
     {
       status: 204, // No Content
       headers: {
