@@ -111,7 +111,8 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/proxy?api=login', {
+      const response = await fetch('https://wan-central-lab.vercel.app/api/proxy?api=login
+', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
