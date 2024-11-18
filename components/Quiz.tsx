@@ -18,7 +18,7 @@ const Quiz = () => {
             }
 
             try {
-                const response = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
+                const response = await axios.get("https://217.196.49.173:6560/api/v1/profile/", {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                     },
@@ -49,7 +49,7 @@ const Quiz = () => {
         try {
             setLoading(true);
     
-            const currentScoreResponse = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
+            const currentScoreResponse = await axios.get("https://217.196.49.173:6560/api/v1/profile/", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -75,7 +75,7 @@ const Quiz = () => {
     
             // Kirim skor ke backend
             const response = await axios.patch(
-                "http://217.196.49.173:6560/api/v1/profile/score",
+                "https://217.196.49.173:6560/api/v1/profile/score",
                 { score: additionalScore },
                 {
                     headers: {
