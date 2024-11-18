@@ -32,7 +32,7 @@ const ProfilePage: React.FC = () => {
   
       try {
         setLoading(true);
-        const response = await fetch('http://217.196.49.173:6560/api/v1/profile/', {
+        const response = await fetch('https://wan-central-lab.vercel.app/api/proxy?api=getProfile', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,8 +67,11 @@ const ProfilePage: React.FC = () => {
       setLoading(true);
       setSuccessMessage('');
       setErrorMessage('');
-
-      const response = await fetch('http://217.196.49.173:6560/api/v1/profile/', {
+      if(name==newName) {
+        setErrorMessage('no field change');
+        return;
+      }
+      const response = await fetch('https://wan-central-lab.vercel.app/api/proxy?api=updateProfile', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +86,7 @@ const ProfilePage: React.FC = () => {
       setUser({ name: responseBody.data.name, email: responseBody.data.email });
       
       setSuccessMessage('Profile updated successfully');
-      setIsEditing(false); // Selesai mengedit
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating profile:', error);
       setErrorMessage('Failed to update profile.');
@@ -114,7 +117,7 @@ const ProfilePage: React.FC = () => {
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              disabled={!isEditing} // Input hanya aktif jika dalam mode edit
+              disabled={!isEditing}
               className={`mt-1 block w-full border ${
                 isEditing ? 'border-gray-300' : 'border-gray-200'
               } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 ${
@@ -151,6 +154,7 @@ const ProfilePage: React.FC = () => {
           </div>
 
           {/* Buttons */}
+
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
@@ -168,11 +172,13 @@ const ProfilePage: React.FC = () => {
                 disabled={loading}
               >
                 {loading ? 'Submitting...' : 'Submit'}
+
               </button>
+
               <button
                 onClick={() => {
                   setIsEditing(false);
-                  setNewName(name); // Reset ke nama asli jika dibatalkan
+                  setNewName(name);
                 }}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none"
               >

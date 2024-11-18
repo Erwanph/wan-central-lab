@@ -11,7 +11,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://217.196.49.173:6560/api/v1/auth/register/', { 
+      const response = await fetch('https://wan-central-lab.vercel.app/api/proxy?api=register', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

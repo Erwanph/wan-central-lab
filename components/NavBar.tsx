@@ -54,7 +54,7 @@ const NavBar: React.FC = () => {
             <div className="relative">
               <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2">
                 <span>{name}</span>
-                <img src="profilePicture.png" alt="Profile" className="w-8 h-8 rounded-full" />
+                <img src="/profile.png" alt="Profile" className="w-8 h-8 rounded-full" />
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-gray-700 rounded shadow-lg">

@@ -4,11 +4,18 @@ import axios from "axios";
 const Quiz = () => {
     const [quiz1, setQuiz1] = useState("");
     const [quiz2, setQuiz2] = useState("");
-    const [quizSubmitted, setQuizSubmitted] = useState(false); // Menyimpan status apakah kuis sudah disubmit
+    const [quizSubmitted, setQuizSubmitted] = useState(false);
     const [currentScore, setCurrentScore] = useState(0);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-
+    interface ProfileResponse {
+        data: {
+          name: string;
+          email: string;
+          score: number;
+        };
+      }
+    
     useEffect(() => {
         const fetchCurrentScore = async () => {
             const token = localStorage.getItem("sessionToken");
@@ -18,13 +25,14 @@ const Quiz = () => {
             }
 
             try {
-                const response = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    },
+                const response = await fetch("https://wan-central-lab.vercel.app/api/proxy?api=getProfile", {
+                  method: 'GET', 
+                  headers: {
+                    "Authorization": `Bearer ${token}`,
+                  },
                 });
-
-                const score = response.data.score || 0;
+                const responseBody:ProfileResponse = await response.json();
+                const score = responseBody.data.score || 0;
                 setCurrentScore(score);
 
                 if (score > 0) {
@@ -45,26 +53,13 @@ const Quiz = () => {
             setError("You are not logged in.");
             return;
         }
-    
         try {
-            setLoading(true);
-    
-            const currentScoreResponse = await axios.get("http://217.196.49.173:6560/api/v1/profile/", {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                },
-            });
-    
-            const currentScore = currentScoreResponse.data.score || 0;
-    
             if (currentScore > 0) {
                 setError("You have already submitted the quiz.");
                 setQuizSubmitted(true);
                 setLoading(false);
-                return; // Berhenti jika skor sudah ada
+                return;
             }
-    
-            // Hitung skor tambahan
             let additionalScore = 0;
             if (quiz1 === "V=IR") {
                 additionalScore += 50;
@@ -73,9 +68,8 @@ const Quiz = () => {
                 additionalScore += 50;
             }
     
-            // Kirim skor ke backend
             const response = await axios.patch(
-                "http://217.196.49.173:6560/api/v1/profile/score",
+                "https://wan-central-lab.vercel.app/api/proxy?api=updateScore",
                 { score: additionalScore },
                 {
                     headers: {
@@ -84,7 +78,6 @@ const Quiz = () => {
                     },
                 }
             );
-    
             if (response.data.data) {
                 setCurrentScore(additionalScore);
                 setQuizSubmitted(true);
@@ -134,7 +127,7 @@ const Quiz = () => {
                                     checked={quiz1 === "V=IR"}
                                     onChange={(e) => setQuiz1(e.target.value)}
                                     className="mr-2"
-                                    disabled={quizSubmitted} // Nonaktifkan jika kuis sudah disubmit
+                                    disabled={quizSubmitted}
                                 />
                                 V = IR
                             </label>
@@ -148,7 +141,7 @@ const Quiz = () => {
                                     checked={quiz1 === "I=V/R"}
                                     onChange={(e) => setQuiz1(e.target.value)}
                                     className="mr-2"
-                                    disabled={quizSubmitted} // Nonaktifkan jika kuis sudah disubmit
+                                    disabled={quizSubmitted}
                                 />
                                 I = V/R
                             </label>
@@ -162,7 +155,7 @@ const Quiz = () => {
                                     checked={quiz1 === "R=V/I"}
                                     onChange={(e) => setQuiz1(e.target.value)}
                                     className="mr-2"
-                                    disabled={quizSubmitted} // Nonaktifkan jika kuis sudah disubmit
+                                    disabled={quizSubmitted}
                                 />
                                 R = V/I
                             </label>

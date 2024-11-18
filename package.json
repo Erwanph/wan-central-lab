@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "erwan-s-central-lab": "file:",
     "express": "^4.21.1",
     "file-saver": "^2.0.5",
     "flowbite-react": "^0.10.2",
